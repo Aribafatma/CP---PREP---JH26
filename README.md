@@ -1,5 +1,6 @@
 # CP---PREP---JH26
 Competitive Programming Journey 
+
 This repository documents my Competitive Programming journey and preparation for ICPC. The goal is to build strong problem-solving skills by learning core data structures, algorithms, and contest techniques.
 
 Why Competitive Programming?
