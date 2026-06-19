@@ -17,5 +17,3 @@ Coding speed
 
 Interview preparation
 
-For the repo structure, use:
-CP-Journey/ │ ├── README.md │ ├── Arrays/ ├── Strings/ ├── Sorting/ ├── Binary-Search/ ├── Two-Pointers/ ├── Sliding-Window/ ├── Prefix-Sum/ ├── Greedy/ │ ├── Time-Complexity/ ├── STL/ ├── Graphs/ ├── Dynamic-Programming/ └── Contest-Notes/ 
