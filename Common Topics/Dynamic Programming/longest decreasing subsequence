@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    // Optimize input/output operations for faster execution
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    // dp[i] will store the length of the LDS ending at index i
+    vector<int> dp(n, 1);
+    int max_lds = 1;
+
+    // Compute LDS using Dynamic Programming transitions
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            // For decreasing subsequence, previous element must be strictly greater
+            if (a[j] > a[i]) {
+                dp[i] = max(dp[i], dp[j] + 1);
+            }
+        }
+        // Update the global maximum length found so far
+        max_lds = max(max_lds, dp[i]);
+    }
+
+    // Print the maximum length of the decreasing subsequence
+    cout << max_lds << "\n";
+
+    return 0;
+}
