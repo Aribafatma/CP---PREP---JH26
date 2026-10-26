@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+// Structure to represent a node in the adjacency list
+struct Node {
+    int dest;
+    struct Node* next;
+};
+
+// Global arrays for graph representation and traversal
+struct Node* adj[100005];
+bool visited[100005];
+
+// Function to add an undirected edge to the graph
+void addEdge(int u, int v) {
+    // Add v to u's list
+    struct Node* newNode1 = (struct Node*)malloc(sizeof(struct Node));
+    newNode1->dest = v;
+    newNode1->next = adj[u];
+    adj[u] = newNode1;
+
+    // Add u to v's list
+    struct Node* newNode2 = (struct Node*)malloc(sizeof(struct Node));
+    newNode2->dest = u;
+    newNode2->next = adj[v];
+    adj[v] = newNode2;
+}
+
+// Standard Depth-First Search
+void dfs(int node) {
+    visited[node] = true;
+    
+    struct Node* curr = adj[node];
+    while (curr != NULL) {
+        int neighbor = curr->dest;
+        if (!visited[neighbor]) {
+            dfs(neighbor);
+        }
+        curr = curr->next;
+    }
+}
+
+int main() {
+    int n, m;
+    if (scanf("%d %d", &n, &m) != 2) return 0;
+
+    // Initialize adjacency list
+    for (int i = 1; i <= n; i++) {
+        adj[i] = NULL;
+        visited[i] = false;
+    }
+
+    // Read the M edges
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        if (scanf("%d %d", &u, &v) == 2) {
+            addEdge(u, v);
+        }
+    }
+
+    // Read the target nodes A and B
+    int a, b;
+    if (scanf("%d %d", &a, &b) != 2) return 0;
+
+    // Perform DFS from source node A
+    dfs(a);
+
+    // If node B was reached during the traversal, they are in the same component
+    if (visited[b]) {
+        printf("YES\n");
+    } else {
+        printf("NO\n");
+    }
+
+    // Free allocated memory (Good practice)
+    for (int i = 1; i <= n; i++) {
+        struct Node* curr = adj[i];
+        while (curr != NULL) {
+            struct Node* temp = curr;
+            curr = curr->next;
+            free(temp);
+        }
+    }
+
+    return 0;
+}
