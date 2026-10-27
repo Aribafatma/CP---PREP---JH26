@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// DFS function to visit all nodes in a connected component
+void dfs(int node, const vector<vector<int>>& adj, vector<bool>& visited) {
+    visited[node] = true;
+    for (int neighbor : adj[node]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, adj, visited);
+        }
+    }
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<vector<int>> adj(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    vector<bool> visited(n + 1, false);
+    vector<int> representatives; // Stores one representative node from each component
+    
+    for (int i = 1; i <= n; ++i) {
+        if (!visited[i]) {
+            // Save this node as the representative for the current component
+            representatives.push_back(i);
+            dfs(i, adj, visited);
+        }
+    }
+    
+    // Number of roads needed is (Total Components - 1)
+    int ans = representatives.size() - 1;
+    cout << ans << "\n";
+    
+    // Connect consecutive components together
+    for (int i = 0; i < ans; ++i) {
+        cout << representatives[i] << " " << representatives[i + 1] << "\n";
+    }
+    
+    return 0;
+}
