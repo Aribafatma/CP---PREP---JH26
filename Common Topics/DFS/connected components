@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to perform DFS and collect all nodes in the current component
+void dfs(int node, const vector<vector<int>>& adj, vector<bool>& visited, vector<int>& component) {
+    visited[node] = true;
+    component.push_back(node);
+    for (int neighbor : adj[node]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, adj, visited, component);
+        }
+    }
+}
+
+int main() {
+    // Fast I/O for performance
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    // Adjacency list using 1-based indexing
+    vector<vector<int>> adj(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    vector<bool> visited(n + 1, false);
+    vector<vector<int>> components;
+    
+    // Find all connected components
+    for (int i = 1; i <= n; ++i) {
+        if (!visited[i]) {
+            vector<int> component;
+            dfs(i, adj, visited, component);
+            components.push_back(component);
+        }
+    }
+    
+    // Print the total number of connected components
+    cout << components.size() << "\n";
+    
+    // Print each component's size followed by its members
+    for (const auto& component : components) {
+        cout << component.size();
+        for (int vertex : component) {
+            cout << " " << vertex;
+        }
+        cout << "\n";
+    }
+    
+    return 0;
+}
